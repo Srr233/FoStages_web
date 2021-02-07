@@ -29,7 +29,6 @@ const isCorrectObject = (checkObj: AnyObj, goodObj: AnyObj, property?: string): 
       }
       return true;
     } else {
-      console.log(item);
       result = {
         errorIn: `Property "${item}" doesn't exist in request body`
       };
@@ -44,7 +43,6 @@ const isCorrectUserBody = (body: AnyObj): boolean | ResProblem => {
     return result;
   }
   result = isCorrectObject(body.profile, defaultAcc.profile, 'profile');
-  console.log(result);
   if (result !== true) {
     return result;
   }
