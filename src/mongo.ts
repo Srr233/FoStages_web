@@ -37,9 +37,42 @@ const addNewUser = async (options: Person): Promise<Status> => {
     result = {
       message: `${e}`,
       status: 400
-    }
+    };
   });
   return result;
 }
 
-export { addNewUser }
+const updateAcc = async (options: Person): Promise<Status> => {
+  const loginExist: Person = await collectionUsers.findOne({ login: options.login });
+  if (!loginExist) {
+    return {
+      message: 'doesn\'t exist',
+      status: 400
+    };
+  }
+  if (loginExist.pass !== options.pass) {
+    return {
+      message: 'there is not correct pass',
+      status: 400
+    }
+  }
+  let result: Status = {
+    message: 'pending',
+    status: 400
+  };
+
+  await collectionUsers.findOneAndUpdate({ login: options.login }, {$set: options}).then(() => {
+    result = {
+      message: 'updated',
+      status: 200
+    }
+  }).catch((e) => {
+    result = {
+      message: `${e}`,
+      status: 400
+    }
+  })
+  return result;
+};
+
+export { addNewUser, updateAcc }

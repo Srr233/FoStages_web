@@ -1,6 +1,6 @@
 import express, { Request, Response, Router } from 'express';
 import bodyParser from 'body-parser';
-import { addNewUser } from './mongo';
+import { addNewUser, updateAcc } from './mongo';
 import Status from './custom_typings/Status';
 import isCorrectUserBody from './servises/isCorrectReq';
 
@@ -25,9 +25,14 @@ route.post('/getCurrentAcc', jsonParset, (req: Request, res: Response) => {
   console.log(req.body)
   res.status(200).json({ body: 'getCurrentAcc' })
 });
-route.post('/updateAcc', jsonParset, (req: Request, res: Response) => {
-  console.log(req.body);
-  res.status(200).json({ body: 'updateAcc' })
+route.post('/updateAcc', jsonParset, async (req: Request, res: Response) => {
+  const isCorrect = isCorrectUserBody(req.body);
+  if (typeof isCorrect === 'object') {
+    res.status(400).json(isCorrect);
+  } else {
+    const result: Status = await updateAcc(req.body);
+    res.status(result.status).json(result.message);
+  }
 });
 
 export default route;
