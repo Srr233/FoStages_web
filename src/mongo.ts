@@ -1,6 +1,7 @@
 import { Collection, MongoClient } from 'mongodb';
 import Person from './custom_typings/Person';
-import Status from './custom_typings/Status'
+import Status from './custom_typings/Status';
+import LoginPass from './custom_typings/loginPass';
 
 const url = 'mongodb+srv://Sulti:ZShvhyNIi3RGuePs@persons.bpytq.mongodb.net/fostagesdb?retryWrites=true&w=majority';
 const connectionParams = {
@@ -75,4 +76,23 @@ const updateAcc = async (options: Person): Promise<Status> => {
   return result;
 };
 
-export { addNewUser, updateAcc }
+const getCurrentAcc = async (options: LoginPass): Promise<Status> => {
+  const acc: Person = await collectionUsers.findOne({ login: options.login, pass: options.pass });
+  let result: Status = {
+    message: 'pending',
+    status: 400
+  };
+  if (acc) {
+    result = {
+      message: acc,
+      status: 200
+    }
+  } else {
+    result = {
+      message: 'doesn\'t exist or bad pass',
+      status: 400
+    }
+  }
+  return result;
+}
+export { addNewUser, updateAcc, getCurrentAcc }

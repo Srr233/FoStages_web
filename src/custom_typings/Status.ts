@@ -1,5 +1,6 @@
+import Person from './Person';
 interface Status {
-  message: string;
+  message: string | Person;
   status: number;
 }
 

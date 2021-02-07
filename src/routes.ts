@@ -1,6 +1,6 @@
 import express, { Request, Response, Router } from 'express';
 import bodyParser from 'body-parser';
-import { addNewUser, updateAcc } from './mongo';
+import { addNewUser, updateAcc, getCurrentAcc } from './mongo';
 import Status from './custom_typings/Status';
 import isCorrectUserBody from './servises/isCorrectReq';
 
@@ -21,9 +21,18 @@ route.post('/newAcc', jsonParset, async (req: Request, res: Response): Promise<v
     res.status(result.status).json(result.message);
   }
 });
-route.post('/getCurrentAcc', jsonParset, (req: Request, res: Response) => {
-  console.log(req.body)
-  res.status(200).json({ body: 'getCurrentAcc' })
+route.post('/getCurrentAcc', jsonParset, async (req: Request, res: Response) => {
+  const { login, pass } = req.body;
+  if (login && pass) {
+    const loginPass = {
+      login,
+      pass
+    };
+    const result = await getCurrentAcc(loginPass);
+    res.status(result.status).json(result.message);
+  } else {
+    res.status(400).json('login or pass doesn\'t exist or has bad value');
+  }
 });
 route.post('/updateAcc', jsonParset, async (req: Request, res: Response) => {
   const isCorrect = isCorrectUserBody(req.body);
