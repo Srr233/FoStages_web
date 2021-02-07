@@ -1,7 +1,7 @@
 import { Collection, MongoClient } from 'mongodb';
 import Person from './custom_typings/Person';
 import Status from './custom_typings/Status';
-import LoginPass from './custom_typings/loginPass';
+import LoginPass from './custom_typings/LoginPass';
 
 const url = 'mongodb+srv://Sulti:ZShvhyNIi3RGuePs@persons.bpytq.mongodb.net/fostagesdb?retryWrites=true&w=majority';
 const connectionParams = {
