@@ -6,4 +6,4 @@ interface Person {
   };
 }
 
-export { Person }
+export default Person
