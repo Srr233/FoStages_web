@@ -29,7 +29,11 @@ route.post('/getCurrentAcc', jsonParset, async (req: Request, res: Response) => 
       pass
     };
     const result = await getCurrentAcc(loginPass);
-    res.status(result.status).json(result.message);
+    if (result.message instanceof Object) {
+      res.status(result.status).json(result.message);
+    } else {
+      res.status(result.status).json({ errorIn: result.message});
+    }
   } else {
     res.status(400).json({ errorIn: 'login or pass doesn\'t exist or has bad value' });
   }
