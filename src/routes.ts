@@ -18,7 +18,7 @@ route.post('/newAcc', jsonParset, async (req: Request, res: Response): Promise<v
     res.status(400).json(isCorrect);
   } else {
     const result: Status = await addNewUser(req.body);
-    res.status(result.status).json(result.message);
+    res.status(result.status).json({ errorIn: result.message });
   }
 });
 route.post('/getCurrentAcc', jsonParset, async (req: Request, res: Response) => {
@@ -40,7 +40,7 @@ route.post('/updateAcc', jsonParset, async (req: Request, res: Response) => {
     res.status(400).json(isCorrect);
   } else {
     const result: Status = await updateAcc(req.body);
-    res.status(result.status).json(result.message);
+    res.status(result.status).json({ errorIn: result.message });
   }
 });
 
